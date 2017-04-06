@@ -25,13 +25,15 @@ DROP TABLE IF EXISTS `attachement`;
 CREATE TABLE `attachement` (
   `at_id` int(11) NOT NULL,
   `at_url` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `at_date` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `at_date` datetime NOT NULL,
   `at_size` int(20) NOT NULL,
   `at_task_id` int(11) NOT NULL,
   `at_owner` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`at_id`),
   KEY `fk_attachement_1_idx` (`at_owner`),
-  CONSTRAINT `fk_attachement_1` FOREIGN KEY (`at_owner`) REFERENCES `user` (`us_username`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_attachement_2_idx` (`at_task_id`),
+  CONSTRAINT `fk_attachement_1` FOREIGN KEY (`at_owner`) REFERENCES `user` (`us_username`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_attachement_2` FOREIGN KEY (`at_task_id`) REFERENCES `task` (`ta_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -42,6 +44,35 @@ CREATE TABLE `attachement` (
 LOCK TABLES `attachement` WRITE;
 /*!40000 ALTER TABLE `attachement` DISABLE KEYS */;
 /*!40000 ALTER TABLE `attachement` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `change_status_permission`
+--
+
+DROP TABLE IF EXISTS `change_status_permission`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `change_status_permission` (
+  `csp_perm_id` int(11) NOT NULL,
+  `csp_status_from` int(11) NOT NULL,
+  `csp_status_to` int(11) NOT NULL,
+  PRIMARY KEY (`csp_perm_id`),
+  KEY `fk_change_status_permission_2_idx` (`csp_status_from`),
+  KEY `fk_change_status_permission_3_idx` (`csp_status_to`),
+  CONSTRAINT `fk_change_status_permission_1` FOREIGN KEY (`csp_perm_id`) REFERENCES `permission` (`pe_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_change_status_permission_2` FOREIGN KEY (`csp_status_from`) REFERENCES `task_status` (`ts_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_change_status_permission_3` FOREIGN KEY (`csp_status_to`) REFERENCES `task_status` (`ts_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `change_status_permission`
+--
+
+LOCK TABLES `change_status_permission` WRITE;
+/*!40000 ALTER TABLE `change_status_permission` DISABLE KEYS */;
+/*!40000 ALTER TABLE `change_status_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -75,54 +106,87 @@ LOCK TABLES `comment` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `label`
+-- Table structure for table `company`
 --
 
-DROP TABLE IF EXISTS `label`;
+DROP TABLE IF EXISTS `company`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `label` (
-  `lb_id` int(11) NOT NULL,
-  `lb_name` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `lb_color` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `lb_task_id` int(11) NOT NULL,
-  PRIMARY KEY (`lb_id`),
-  KEY `fk_label_1_idx` (`lb_task_id`),
-  CONSTRAINT `fk_label_1` FOREIGN KEY (`lb_task_id`) REFERENCES `task` (`ta_id`) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE `company` (
+  `co_id` int(11) NOT NULL,
+  `co_name` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `co_logo` varchar(400) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `co_owner` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`co_id`),
+  KEY `fk_company_1_idx` (`co_owner`),
+  CONSTRAINT `fk_company_1` FOREIGN KEY (`co_owner`) REFERENCES `user` (`us_username`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `label`
+-- Dumping data for table `company`
 --
 
-LOCK TABLES `label` WRITE;
-/*!40000 ALTER TABLE `label` DISABLE KEYS */;
-/*!40000 ALTER TABLE `label` ENABLE KEYS */;
+LOCK TABLES `company` WRITE;
+/*!40000 ALTER TABLE `company` DISABLE KEYS */;
+/*!40000 ALTER TABLE `company` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `max_task_number`
+-- Table structure for table `logged_work`
 --
 
-DROP TABLE IF EXISTS `max_task_number`;
+DROP TABLE IF EXISTS `logged_work`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `max_task_number` (
-  `mtn_id` int(11) NOT NULL,
-  `task_count` int(11) DEFAULT NULL,
-  PRIMARY KEY (`mtn_id`),
-  CONSTRAINT `fk_max_task_number_1` FOREIGN KEY (`mtn_id`) REFERENCES `role_permission` (`rp_id`) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE `logged_work` (
+  `lw_id` int(11) NOT NULL,
+  `lw_hours_count` varchar(3) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lw_comment` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lw_log_time` datetime NOT NULL,
+  `lw_username` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lw_task_id` int(11) NOT NULL,
+  PRIMARY KEY (`lw_id`),
+  KEY `fk_logged_work_1_idx` (`lw_username`),
+  KEY `fk_logged_work_2_idx` (`lw_task_id`),
+  CONSTRAINT `fk_logged_work_1` FOREIGN KEY (`lw_username`) REFERENCES `user` (`us_username`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_logged_work_2` FOREIGN KEY (`lw_task_id`) REFERENCES `task` (`ta_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `max_task_number`
+-- Dumping data for table `logged_work`
 --
 
-LOCK TABLES `max_task_number` WRITE;
-/*!40000 ALTER TABLE `max_task_number` DISABLE KEYS */;
-/*!40000 ALTER TABLE `max_task_number` ENABLE KEYS */;
+LOCK TABLES `logged_work` WRITE;
+/*!40000 ALTER TABLE `logged_work` DISABLE KEYS */;
+/*!40000 ALTER TABLE `logged_work` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `permission`
+--
+
+DROP TABLE IF EXISTS `permission`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `permission` (
+  `pe_id` int(11) NOT NULL,
+  `pe_project_id` int(11) NOT NULL,
+  `pe_type` enum('asign_to_other','comment','attachmanet','change_status') COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`pe_id`),
+  KEY `fk_permission_1_idx` (`pe_project_id`),
+  CONSTRAINT `fk_permission_1` FOREIGN KEY (`pe_project_id`) REFERENCES `project` (`pr_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `permission`
+--
+
+LOCK TABLES `permission` WRITE;
+/*!40000 ALTER TABLE `permission` DISABLE KEYS */;
+/*!40000 ALTER TABLE `permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -138,8 +202,11 @@ CREATE TABLE `project` (
   `pr_lead` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
   `pr_description` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `pr_logo` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pr_company_id` int(11) NOT NULL,
   PRIMARY KEY (`pr_id`),
   KEY `project_user_us_username_fk` (`pr_lead`),
+  KEY `fk_project_1_idx` (`pr_company_id`),
+  CONSTRAINT `fk_project_1` FOREIGN KEY (`pr_company_id`) REFERENCES `company` (`co_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `project_user_us_username_fk` FOREIGN KEY (`pr_lead`) REFERENCES `user` (`us_username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -154,53 +221,56 @@ LOCK TABLES `project` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `project_group`
+-- Table structure for table `project_user`
 --
 
-DROP TABLE IF EXISTS `project_group`;
+DROP TABLE IF EXISTS `project_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `project_group` (
-  `pg_project_id` int(11) NOT NULL,
-  `pg_username` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`pg_project_id`,`pg_username`),
-  KEY `project_group___fk1` (`pg_username`),
-  CONSTRAINT `project_group___fk1` FOREIGN KEY (`pg_username`) REFERENCES `user` (`us_username`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `project_group_project_pr_id_fk` FOREIGN KEY (`pg_project_id`) REFERENCES `project` (`pr_id`) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE `project_user` (
+  `pu_project_id` int(11) NOT NULL,
+  `pu_username` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`pu_project_id`,`pu_username`),
+  KEY `fk_project_user_2` (`pu_username`),
+  CONSTRAINT `fk_project_user_1` FOREIGN KEY (`pu_project_id`) REFERENCES `project` (`pr_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_project_user_2` FOREIGN KEY (`pu_username`) REFERENCES `user` (`us_username`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `project_group`
+-- Dumping data for table `project_user`
 --
 
-LOCK TABLES `project_group` WRITE;
-/*!40000 ALTER TABLE `project_group` DISABLE KEYS */;
-/*!40000 ALTER TABLE `project_group` ENABLE KEYS */;
+LOCK TABLES `project_user` WRITE;
+/*!40000 ALTER TABLE `project_user` DISABLE KEYS */;
+/*!40000 ALTER TABLE `project_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `project_role`
+-- Table structure for table `role`
 --
 
-DROP TABLE IF EXISTS `project_role`;
+DROP TABLE IF EXISTS `role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `project_role` (
-  `prro_username` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `prro_project_id` int(11) NOT NULL,
-  `prro_role_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`prro_project_id`,`prro_username`)
+CREATE TABLE `role` (
+  `ro_id` int(11) NOT NULL,
+  `ro_name` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ro_project_id` int(11) NOT NULL,
+  `ro_max_task_number` int(3) NOT NULL,
+  PRIMARY KEY (`ro_id`),
+  KEY `fk_role_1_idx` (`ro_project_id`),
+  CONSTRAINT `fk_role_1` FOREIGN KEY (`ro_project_id`) REFERENCES `project` (`pr_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `project_role`
+-- Dumping data for table `role`
 --
 
-LOCK TABLES `project_role` WRITE;
-/*!40000 ALTER TABLE `project_role` DISABLE KEYS */;
-/*!40000 ALTER TABLE `project_role` ENABLE KEYS */;
+LOCK TABLES `role` WRITE;
+/*!40000 ALTER TABLE `role` DISABLE KEYS */;
+/*!40000 ALTER TABLE `role` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -211,13 +281,12 @@ DROP TABLE IF EXISTS `role_permission`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `role_permission` (
-  `rp_id` int(11) NOT NULL,
-  `rp_project_id` int(11) NOT NULL,
-  `rp_username` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `rp_permission_type` enum('CREATE_TASK','ASIGN_TO_OTHER','CHANGE_STATUS_FROM','CHANGE_STATUS_TO','ADD_COMMENT_TO_TASK_IN_STATUS','ADD_ATTACHMENT_TO_TASK_IN_STATUS','ADD_ATTACHENT_TO_OWN_TASK','ADD_COMMENT_TO_OWN_TASK') COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`rp_id`),
-  KEY `fk_role_permissiouytrecn_1_idx` (`rp_project_id`,`rp_username`),
-  CONSTRAINT `fk_role_permissiouytrecn_1` FOREIGN KEY (`rp_project_id`, `rp_username`) REFERENCES `project_role` (`prro_project_id`, `prro_username`) ON DELETE CASCADE ON UPDATE CASCADE
+  `rp_role_id` int(11) NOT NULL,
+  `rp_permission_id` int(11) NOT NULL,
+  PRIMARY KEY (`rp_role_id`,`rp_permission_id`),
+  KEY `fk_role_permission_2_idx` (`rp_permission_id`),
+  CONSTRAINT `fk_role_permission_1` FOREIGN KEY (`rp_role_id`) REFERENCES `role` (`ro_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_role_permission_2` FOREIGN KEY (`rp_permission_id`) REFERENCES `permission` (`pe_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -231,29 +300,29 @@ LOCK TABLES `role_permission` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `status_permission`
+-- Table structure for table `role_user`
 --
 
-DROP TABLE IF EXISTS `status_permission`;
+DROP TABLE IF EXISTS `role_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `status_permission` (
-  `st_permission_id` int(11) NOT NULL,
-  `st_task_status` int(11) NOT NULL,
-  PRIMARY KEY (`st_permission_id`,`st_task_status`),
-  KEY `fk_status_permission_2_idx` (`st_task_status`),
-  CONSTRAINT `fk_status_permission_1` FOREIGN KEY (`st_permission_id`) REFERENCES `role_permission` (`rp_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_status_permission_2` FOREIGN KEY (`st_task_status`) REFERENCES `task_status` (`ts_id`) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE `role_user` (
+  `ru_username` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ru_role_id` int(11) NOT NULL,
+  PRIMARY KEY (`ru_username`,`ru_role_id`),
+  KEY `fk_role_user_2_idx` (`ru_role_id`),
+  CONSTRAINT `fk_role_user_1` FOREIGN KEY (`ru_username`) REFERENCES `user` (`us_username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_role_user_2` FOREIGN KEY (`ru_role_id`) REFERENCES `role` (`ro_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `status_permission`
+-- Dumping data for table `role_user`
 --
 
-LOCK TABLES `status_permission` WRITE;
-/*!40000 ALTER TABLE `status_permission` DISABLE KEYS */;
-/*!40000 ALTER TABLE `status_permission` ENABLE KEYS */;
+LOCK TABLES `role_user` WRITE;
+/*!40000 ALTER TABLE `role_user` DISABLE KEYS */;
+/*!40000 ALTER TABLE `role_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -283,6 +352,59 @@ LOCK TABLES `system_role` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `tag`
+--
+
+DROP TABLE IF EXISTS `tag`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tag` (
+  `lb_id` int(11) NOT NULL,
+  `lb_name` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lb_color` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lb_project_id` int(11) NOT NULL,
+  PRIMARY KEY (`lb_id`),
+  KEY `fk_tag_1_idx` (`lb_project_id`),
+  CONSTRAINT `fk_tag_1` FOREIGN KEY (`lb_project_id`) REFERENCES `project` (`pr_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tag`
+--
+
+LOCK TABLES `tag` WRITE;
+/*!40000 ALTER TABLE `tag` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tag` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tag_task`
+--
+
+DROP TABLE IF EXISTS `tag_task`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tag_task` (
+  `tt_tag_id` int(11) NOT NULL,
+  `tt_task_id` int(11) NOT NULL,
+  PRIMARY KEY (`tt_tag_id`,`tt_task_id`),
+  KEY `fk_tag_task_2_idx` (`tt_task_id`),
+  CONSTRAINT `fk_tag_task_1` FOREIGN KEY (`tt_tag_id`) REFERENCES `tag` (`lb_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_tag_task_2` FOREIGN KEY (`tt_task_id`) REFERENCES `task` (`ta_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tag_task`
+--
+
+LOCK TABLES `tag_task` WRITE;
+/*!40000 ALTER TABLE `tag_task` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tag_task` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `task`
 --
 
@@ -299,8 +421,6 @@ CREATE TABLE `task` (
   `ta_creator` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
   `ta_executor` varchar(80) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ta_create_time` datetime NOT NULL,
-  `ta_progress_start_time` datetime DEFAULT NULL,
-  `ta_progress_end_time` datetime DEFAULT NULL,
   `ta_order` int(3) DEFAULT NULL,
   PRIMARY KEY (`ta_id`),
   KEY `fk_task_1_idx` (`ta_creator`),
@@ -364,7 +484,6 @@ CREATE TABLE `task_status` (
   `ts_id` int(11) NOT NULL,
   `ts_project` int(11) NOT NULL,
   `ts_name` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ts_description` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ts_order` int(3) DEFAULT NULL,
   PRIMARY KEY (`ts_id`),
   KEY `fk_task_status_1_idx` (`ts_project`),
@@ -393,8 +512,12 @@ CREATE TABLE `user` (
   `us_email` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
   `us_first_name` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
   `us_last_name` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `us_create_project` tinyint(4) NOT NULL,
+  `us_company_id` int(11) NOT NULL,
   PRIMARY KEY (`us_username`),
-  UNIQUE KEY `user_us_email_uindex` (`us_email`)
+  UNIQUE KEY `user_us_email_uindex` (`us_email`),
+  KEY `fk_user_1_idx` (`us_company_id`),
+  CONSTRAINT `fk_user_1` FOREIGN KEY (`us_company_id`) REFERENCES `company` (`co_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -416,4 +539,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-25 17:46:51
+-- Dump completed on 2017-04-05 21:24:14
