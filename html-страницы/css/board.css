@@ -1,0 +1,15 @@
+.row div{
+	background-color: #e2e4e6; 
+	/*text-align: center;*/
+}
+
+.row div .row{
+	padding-top: 5px;
+	padding-left: 5px;
+	padding-right: 5px; 
+}
+
+.task{
+	margin-bottom: 20px; 
+	height: 180px;
+}

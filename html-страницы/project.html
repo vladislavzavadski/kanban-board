@@ -1,0 +1,103 @@
+<html ng-app="myApp">
+<head>
+    <title>Kanban Board</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/index-style.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="css/board.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister" rel="stylesheet">
+    <!-- <link rel="stylesheet" type="text/css" href="css/style.css"> -->
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+
+    <script src="../../js/application.js"></script>
+</head>
+    <body style="background-color: #0079bf">
+        <header>
+            <nav class="navbar navbar-default">
+                <div class="container-fluid" style="background: linear-gradient(to right, #2731B4, #2790B4);">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#" style="color:white">Kanban Board</a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav navbar-right">
+                            <span>FirstName LastName</span>
+                            <a href="#" class="btn btn-primary btn-info">Default text here</a>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2">
+                    <span style="font-size: 30px; font-family: 'Love Ya Like A Sister', cursive;">Some status</span>
+                    <div class="row">
+                        <div class="col-md-12 task" style="background-color: white;">
+                            <span style="font-family: 'Love Ya Like A Sister', cursive; font-size: 20px;">Task 1</span>
+                           <div style="height: 114px; overflow-x:hidden;">
+                                Многие думают, что Lorem Ipsum - взятый с потолка псевдо-латинский набор слов, но это не совсем так. Его корни уходят в один фрагмент классической латыни 45 года н.э., то есть более двух тысячелетий назад. Ричард МакКлинток, профессор латыни из колледжа Hampden-Sydney, штат Вирджиния, взял одно из самых странных слов в Lorem Ipsum, "consectetur", и занялся его поисками в классической латинской литературе. В результате он нашёл неоспоримый первоисточник Lorem Ipsum в разделах 1.10.32 и 1.10.33 книги "de Finibus Bonorum et Malorum" ("О пределах добра и зла"), написанной Цицероном в 45 году н.э. Этот трактат по теории этики был очень популярен в эпоху Возрождения. Первая строка Lorem Ipsum, "Lorem ipsum dolor sit amet..", происходит от одной из строк в разделе 1.10.32
+                                Классический текст Lorem Ipsum, используемый с XVI века, приведён ниже. Также даны разделы 1.10.32 и 1.10.33 "de Finibus Bonorum et Malorum" Цицерона и их английский перевод, сделанный H. Rackham, 1914 год.
+                            </div>
+                            <span><span class="glyphicon glyphicon-paperclip" style="text-align: left; margin-top: 10px;"></span>123</span>
+                            <span style="position: absolute; margin-top: 10px; margin-left: 10px; right: 10;"><span class="glyphicon glyphicon-comment"></span>12</span>                            
+                        </div>
+                        <div class="col-md-12 task" style="background-color: white; position: relative;">
+                            <span style="font-family: 'Love Ya Like A Sister', cursive; font-size: 20px;">Task 2</span>
+                            <div style="height: 114px; overflow-x:hidden;">
+                                Многие думают, что Lorem Ipsum - взятый с потолка псевдо-латинский набор слов, но это не совсем так. Его корни уходят в один фрагмент классической латыни 45 года н.э., то есть более двух тысячелетий назад. Ричард МакКлинток, профессор латыни из колледжа Hampden-Sydney, штат Вирджиния, взял одно из самых странных слов в Lorem Ipsum, "consectetur", и занялся его поисками в классической латинской литературе. В результате он нашёл неоспоримый первоисточник Lorem Ipsum в разделах 1.10.32 и 1.10.33 книги "de Finibus Bonorum et Malorum" ("О пределах добра и зла"), написанной Цицероном в 45 году н.э. Этот трактат по теории этики был очень популярен в эпоху Возрождения. Первая строка Lorem Ipsum, "Lorem ipsum dolor sit amet..", происходит от одной из строк в разделе 1.10.32
+                                Классический текст Lorem Ipsum, используемый с XVI века, приведён ниже. Также даны разделы 1.10.32 и 1.10.33 "de Finibus Bonorum et Malorum" Цицерона и их английский перевод, сделанный H. Rackham, 1914 год.
+                            </div>
+                            <span><span class="glyphicon glyphicon-paperclip" style="text-align: left; margin-top: 10px;"></span>123</span>
+                            <span style="position: absolute; margin-top: 10px; margin-left: 10px; right: 10;"><span class="glyphicon glyphicon-comment"></span>12</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <span style="font-size: 30px; font-family: 'Love Ya Like A Sister', cursive;">Some status</span>
+                    <div class="row">
+                        <div class="col-md-12 task" style="background-color: white;">
+                            <span style="font-family: 'Love Ya Like A Sister', cursive; font-size: 20px;">Task 1</span>
+                           <div style="height: 114px; overflow-x:hidden;">
+                                Многие думают, что Lorem Ipsum - взятый с потолка псевдо-латинский набор слов, но это не совсем так. Его корни уходят в один фрагмент классической латыни 45 года н.э., то есть более двух тысячелетий назад. Ричард МакКлинток, профессор латыни из колледжа Hampden-Sydney, штат Вирджиния, взял одно из самых странных слов в Lorem Ipsum, "consectetur", и занялся его поисками в классической латинской литературе. В результате он нашёл неоспоримый первоисточник Lorem Ipsum в разделах 1.10.32 и 1.10.33 книги "de Finibus Bonorum et Malorum" ("О пределах добра и зла"), написанной Цицероном в 45 году н.э. Этот трактат по теории этики был очень популярен в эпоху Возрождения. Первая строка Lorem Ipsum, "Lorem ipsum dolor sit amet..", происходит от одной из строк в разделе 1.10.32
+                                Классический текст Lorem Ipsum, используемый с XVI века, приведён ниже. Также даны разделы 1.10.32 и 1.10.33 "de Finibus Bonorum et Malorum" Цицерона и их английский перевод, сделанный H. Rackham, 1914 год.
+                            </div>
+                            <span><span class="glyphicon glyphicon-paperclip" style="text-align: left; margin-top: 10px;"></span>123</span>
+                            <span style="position: absolute; margin-top: 10px; margin-left: 10px; right: 10;"><span class="glyphicon glyphicon-comment"></span>12</span>                            
+                        </div>
+                        <div class="col-md-12 task" style="background-color: white; position: relative;">
+                            <span style="font-family: 'Love Ya Like A Sister', cursive; font-size: 20px;">Task 2</span>
+                            <div style="height: 114px; overflow-x:hidden;">
+                                Многие думают, что Lorem Ipsum - взятый с потолка псевдо-латинский набор слов, но это не совсем так. Его корни уходят в один фрагмент классической латыни 45 года н.э., то есть более двух тысячелетий назад. Ричард МакКлинток, профессор латыни из колледжа Hampden-Sydney, штат Вирджиния, взял одно из самых странных слов в Lorem Ipsum, "consectetur", и занялся его поисками в классической латинской литературе. В результате он нашёл неоспоримый первоисточник Lorem Ipsum в разделах 1.10.32 и 1.10.33 книги "de Finibus Bonorum et Malorum" ("О пределах добра и зла"), написанной Цицероном в 45 году н.э. Этот трактат по теории этики был очень популярен в эпоху Возрождения. Первая строка Lorem Ipsum, "Lorem ipsum dolor sit amet..", происходит от одной из строк в разделе 1.10.32
+                                Классический текст Lorem Ipsum, используемый с XVI века, приведён ниже. Также даны разделы 1.10.32 и 1.10.33 "de Finibus Bonorum et Malorum" Цицерона и их английский перевод, сделанный H. Rackham, 1914 год.
+                            </div>
+                            <span><span class="glyphicon glyphicon-paperclip" style="text-align: left; margin-top: 10px;"></span>123</span>
+                            <span style="position: absolute; margin-top: 10px; margin-left: 10px; right: 10;"><span class="glyphicon glyphicon-comment"></span>12</span>
+                        </div>
+                        <div class="col-md-12 task" style="background-color: white; position: relative;">
+                            <span style="font-family: 'Love Ya Like A Sister', cursive; font-size: 20px;">Task 2</span>
+                            <div style="height: 114px; overflow-x:hidden;">
+                                Многие думают, что Lorem Ipsum - взятый с потолка псевдо-латинский набор слов, но это не совсем так. Его корни уходят в один фрагмент классической латыни 45 года н.э., то есть более двух тысячелетий назад. Ричард МакКлинток, профессор латыни из колледжа Hampden-Sydney, штат Вирджиния, взял одно из самых странных слов в Lorem Ipsum, "consectetur", и занялся его поисками в классической латинской литературе. В результате он нашёл неоспоримый первоисточник Lorem Ipsum в разделах 1.10.32 и 1.10.33 книги "de Finibus Bonorum et Malorum" ("О пределах добра и зла"), написанной Цицероном в 45 году н.э. Этот трактат по теории этики был очень популярен в эпоху Возрождения. Первая строка Lorem Ipsum, "Lorem ipsum dolor sit amet..", происходит от одной из строк в разделе 1.10.32
+                                Классический текст Lorem Ipsum, используемый с XVI века, приведён ниже. Также даны разделы 1.10.32 и 1.10.33 "de Finibus Bonorum et Malorum" Цицерона и их английский перевод, сделанный H. Rackham, 1914 год.
+                            </div>
+                            <span><span class="glyphicon glyphicon-paperclip" style="text-align: left; margin-top: 10px;"></span>123</span>
+                            <span style="position: absolute; margin-top: 10px; margin-left: 10px; right: 10;"><span class="glyphicon glyphicon-comment"></span>12</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
