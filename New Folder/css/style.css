@@ -1,0 +1,44 @@
+.row div div{
+	background-color: black;
+	height: 150px;
+	opacity: 0.7;
+	color: white;
+	font-size: 16px;
+	padding-left: 15px; 
+	position: relative;
+}
+
+.row div{
+	padding: 5px;
+}
+
+.row div div:hover{
+	opacity: 1;
+}
+
+.users-number{
+	color: white; 
+	position: absolute;
+	right: 0; 
+	margin-top: 124px; 
+	margin-right: 5px;
+}
+
+.task-number{
+	left: 0;
+	bottom: 0;
+	margin-top: 98px;
+	margin-left: -8px;
+}
+
+.lead-group{
+	margin-left: 120px; 
+	right: 2; 
+	position: absolute;
+}
+
+.new-project{
+	height: 50px;
+	background: url("../images/Rafiqul-Hassan-Blogger-Plus.ico") no-repeat center;
+	background-size: contain;
+}
